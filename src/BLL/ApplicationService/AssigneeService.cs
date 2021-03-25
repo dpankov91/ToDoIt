@@ -18,13 +18,8 @@ namespace BLL
         {
             _assigneeRepository = assigneeRepository ?? throw new NullReferenceException("Repo cannot be null"); ;
         }
-        public Assignee CreateAssignee(string name)
+        public Assignee CreateAssignee(Assignee assignee)
         {
-            Assignee assignee = new Assignee()
-            {
-                Name = name,
-
-            };
             return _assigneeRepository.CreateAssignee(assignee);
         }
 
@@ -37,9 +32,9 @@ namespace BLL
             return _assigneeRepository.DeleteAssignee(id);
         }
 
-        public List<Assignee> ReadAll(int id)
+        public List<Assignee> ReadAll()
         {
-            return _assigneeRepository.ReadAll(id).ToList();
+            return _assigneeRepository.ReadAll().ToList();
         }
 
         public Assignee ReadById(int id)
@@ -47,13 +42,13 @@ namespace BLL
             return _assigneeRepository.ReadById(id);
         }
 
-        public Assignee UpdateAssignee(int id)
+        public Assignee UpdateAssignee(int id, Assignee assignee)
         {
 
             if ( id <= 0)
                 throw new ArgumentNullException("id cannot be null or negative");
 
-            return _assigneeRepository.UpdateAssignee(id);
+            return _assigneeRepository.UpdateAssignee(id, assignee);
         }
     }
 }

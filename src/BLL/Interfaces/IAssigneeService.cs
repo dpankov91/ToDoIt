@@ -9,10 +9,10 @@ namespace BLL.Interfaces
 {
     public interface IAssigneeService
     {
-        Assignee CreateAssignee(string name);
+        Assignee CreateAssignee(Assignee assignee);
         Assignee ReadById(int id);
-        List<Assignee> ReadAll(int id);
-        Assignee UpdateAssignee(int id);
+        List<Assignee> ReadAll();
+        Assignee UpdateAssignee(int id, Assignee assignee);
         Assignee DeleteAssignee(int id);
     }
 }

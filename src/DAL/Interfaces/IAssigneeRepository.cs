@@ -11,8 +11,8 @@ namespace DAL.Interfaces
     {
         Assignee CreateAssignee(Assignee assignee);
         Assignee ReadById(int id);
-        IEnumerable<Assignee> ReadAll(int id);
-        Assignee UpdateAssignee(int id);
+        IEnumerable<Assignee> ReadAll();
+        Assignee UpdateAssignee(int id, Assignee assignee);
         Assignee DeleteAssignee(int id);
     }
 }

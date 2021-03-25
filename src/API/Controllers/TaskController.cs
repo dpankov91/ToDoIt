@@ -88,5 +88,23 @@ namespace API.Controllers
             }
             return BadRequest();
         }
+
+        [HttpPut("{id}")]
+        public ActionResult Put(int id, [FromBody] Task task)
+        {
+            try
+            {
+                if (id != task.Id)
+                {
+                    return BadRequest($"Parameter ID({id}) and pet ID({task.Id}) have to be the same");
+                }
+
+                return Ok(_taskService.UpdateTask(id, DateTime.Now));
+            }
+            catch (ArgumentNullException e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }

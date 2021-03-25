@@ -12,7 +12,7 @@ namespace BLL.Interfaces
         Task CreateTask(Task task);
         Task ReadTaskById(int id);
         List<Task> ReadAllTasks();
-        Task UpdateTask(int id, DateTime dueDate);
+        Task UpdateTask(int id, Task task);
         Task DeleteTask(int id);
     }
 }

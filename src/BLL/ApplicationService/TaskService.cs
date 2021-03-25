@@ -20,11 +20,7 @@ namespace BLL
         }
         public Task CreateTask(Task task)
         {
-            Task task1 = new Task()
-            {
-                Description =  "description",
-            };
-            return _taskRepository.CreateTask( task1);
+            return _taskRepository.CreateTask( task);
         }
 
         public Task DeleteTask(int id)
@@ -47,14 +43,14 @@ namespace BLL
             return _taskRepository.ReadTaskById(id);
         }
 
-        public Task UpdateTask(int id, DateTime dueDate)
+        public Task UpdateTask(int id, Task task)
         {
             if (id <= 0)
             {
                 throw new ArgumentNullException("id cannot be null or negative");
             }
 
-            return _taskRepository.UpdateTask(id, dueDate);
+            return _taskRepository.UpdateTask(id, task);
 
         }
         

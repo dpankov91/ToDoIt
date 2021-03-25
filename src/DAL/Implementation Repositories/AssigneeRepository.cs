@@ -37,26 +37,22 @@ namespace DAL
             return AssigneeDeleted;
         }
 
-        public IEnumerable<Assignee> ReadAll(int id)
+        public IEnumerable<Assignee> ReadAll()
         {
-            var tempList = new List<Assignee>().ToList();
-            if (id == null)
-            {
-                throw new NullReferenceException("$ id cannot be null");
-            }
-            return tempList;
+            return _ctx.Assignees;
         }
 
         public Assignee ReadById(int id)
         {
-            return _ctx.Assignees.FirstOrDefault();
+            return _ctx.Assignees.FirstOrDefault(u => u.Id == id);
         }
 
-        public Assignee UpdateAssignee(int id)
+        public Assignee UpdateAssignee(int id, Assignee AssigneeToUpdate)
         {
             var AssigneeUpdated = ReadById(id);
             if (AssigneeUpdated != null)
             {
+                AssigneeUpdated.Name = AssigneeToUpdate.Name;
                 _ctx.Attach(AssigneeUpdated).State = EntityState.Modified;
                 _ctx.SaveChanges();
                 
