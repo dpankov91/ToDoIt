@@ -3,12 +3,14 @@ pipeline {
     stages {
         stage("Build Web") {
             steps {
-                echo "===== OPTIONAL: Will build the website (if needed) ====="
+                //echo "===== OPTIONAL: Will build the website (if needed) ====="
+                sh "dotnet build src/Todoit.sln"
             }
         }
         stage("Build API") {
             steps {
-                echo "===== REQUIRED: Will build the API project ====="
+               // echo "===== REQUIRED: Will build the API project ====="
+               sh "dotnet build src/API/API.csproj"
             }
         }
         stage("Build database") {
