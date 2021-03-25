@@ -35,6 +35,20 @@ namespace API.Controllers
             }
         }
 
+        [HttpGet]
+        public ActionResult Get()
+        {
+            try
+            {
+                return Ok((_assigneeService.ReadAll()));
+
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
         [HttpPost]
         public ActionResult Post([FromBody] String name)
         {
@@ -71,6 +85,24 @@ namespace API.Controllers
                 StatusCode(500, e.Message);
             }
             return BadRequest();
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult Put(int id, [FromBody] Assignee assignee)
+        {
+            try
+            {
+                if (id != assignee.Id)
+                {
+                    return BadRequest();
+                }
+
+                return Ok(_assigneeService.UpdateAssignee(id));
+            }
+            catch (ArgumentNullException e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }

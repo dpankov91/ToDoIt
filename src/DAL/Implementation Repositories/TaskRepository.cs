@@ -45,14 +45,20 @@ namespace DAL
 
         public Task ReadTaskById(int id)
         {
-            return _ctx.Tasks.FirstOrDefault();
+            return _ctx.Tasks.FirstOrDefault(u => u.Id == id);
         }
 
-        public Task UpdateTask(int id, DateTime dueDate)
+        public Task UpdateTask(int id, Task task)
         {
             var TaskUpdated = ReadTaskById(id);
             if (TaskUpdated != null)
             {
+                TaskUpdated.DueDate = task.DueDate;
+                TaskUpdated.Assignee = task.Assignee;
+                TaskUpdated.Description = task.Description;
+                TaskUpdated.IsCompleted = task.IsCompleted;
+                TaskUpdated.AssigneeId = task.AssigneeId;
+
                 _ctx.Attach(TaskUpdated).State = EntityState.Modified;
                 _ctx.SaveChanges();
 

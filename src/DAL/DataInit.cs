@@ -57,7 +57,7 @@ namespace DAL
                 DueDate = DateTime.Parse("10/02/2021")
             };
             ctx.Tasks.Add(task3);
-
+            ctx.SaveChanges();
         }
 
 
