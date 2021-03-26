@@ -76,7 +76,7 @@ namespace RestAPI.Controllers
         {
             try
             {
-                if (id != assignee.Id)
+                if (id < 1 || assignee.Id != id)
                 {
                     return BadRequest();
                 }
