@@ -60,7 +60,7 @@ namespace RestAPI.Controllers
             try
             {
 
-                if (task.Description != null)
+                if (task != null)
                 {
                     return Ok(_taskService.CreateTask(task));
                 }

@@ -60,7 +60,7 @@ namespace RestAPI.Controllers
         {
             try
             {
-                if (assignee.Name != null)
+                if (assignee != null)
                 {
                     return Ok(_assigneeService.CreateAssignee(assignee));
                 }
