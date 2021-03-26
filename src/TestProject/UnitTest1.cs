@@ -29,34 +29,34 @@ namespace TestProject
         }
 
         [Fact]
-        public void ReadAll_withNegativeId_ShouldThrowExeption_Once()
+        public void ReadById_withNegativeId_ShouldThrowExeption_Once()
         {
             //arrange
             var assigneeRepositoryMock = new Mock<IAssigneeRepository>();
            IAssigneeService service = new AssigneeService(assigneeRepositoryMock.Object);
            Assignee mockAssignee = new Assignee() {Id = -1};
             //assign
-            assigneeRepositoryMock.Setup(rm => rm.ReadAll(-1));
-            service.ReadAll(-1);
+            assigneeRepositoryMock.Setup(rm => rm.ReadById(-1));
+            service.ReadById(-1);
             //assert
-           assigneeRepositoryMock.Verify(rm => rm.ReadAll(-1), Times.Once);
+           assigneeRepositoryMock.Verify(rm => rm.ReadById(-1), Times.Once);
 
 
         }
 
 
         [Fact]
-        public void ReadAll_ShouldMatchReadAllInRepository_Once()
+        public void ReadById_ShouldMatchReadByIdInRepository_Once()
         {
             //arrange
             var AssigneeRepositoryMock = new Mock<IAssigneeRepository>();
             IAssigneeService service = new AssigneeService(AssigneeRepositoryMock.Object);
             //assign
-            AssigneeRepositoryMock.Setup(r => r.ReadAll(50));
-            service.ReadAll(50);
+            AssigneeRepositoryMock.Setup(r => r.ReadById(50));
+            service.ReadById(50);
             //assert
-            AssigneeRepositoryMock.Verify(r => r.ReadAll(50), Times.Once());
-            CheckPerformance(() => service.ReadAll(50), 1000);
+            AssigneeRepositoryMock.Verify(r => r.ReadById(50), Times.Once());
+            CheckPerformance(() => service.ReadById(50), 1000);
         }
         [Fact]
         public void Delete_ShouldCallDeleteMethodInRepository_withParamAsId_Once()
