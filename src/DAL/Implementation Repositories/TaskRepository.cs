@@ -40,7 +40,7 @@ namespace DAL
 
         public IEnumerable<Task> ReadAllTasks()
         {
-            return _ctx.Tasks;
+            return _ctx.Tasks.ToList();
         }
 
         public Task ReadTaskById(int id)

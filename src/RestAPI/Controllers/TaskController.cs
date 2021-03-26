@@ -30,7 +30,7 @@ namespace RestAPI.Controllers
             catch (Exception e)
 
             {
-                return BadRequest($"cannot read all workSpacePosters");
+                return BadRequest(e.Message);
             }
         }
 
