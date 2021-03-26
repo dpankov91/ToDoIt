@@ -56,17 +56,13 @@ namespace RestAPI.Controllers
 
         // POST api/<AssigneeController>
         [HttpPost]
-        public IActionResult Post([FromBody] Assignee assignee)
+        public ActionResult<Assignee> Post([FromBody] Assignee assignee)
         {
             try
             {
-                if (assignee != null)
-                {
-                    return Ok(_assigneeService.CreateAssignee(assignee));
-                }
 
-                return BadRequest();
-
+                return Ok(_assigneeService.CreateAssignee(assignee));
+               
             }
             catch (Exception e)
             {
