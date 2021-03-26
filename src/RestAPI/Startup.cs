@@ -21,48 +21,27 @@ namespace RestAPI
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration, IWebHostEnvironment env)
+        public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            Environment = env;
         }
-        public IConfiguration Configuration { get; }
-        public IWebHostEnvironment Environment { get; }
 
+        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors();
-            if (Environment.IsDevelopment())
-            {
-                services.AddDbContext<TodoContext>(
-                    opt =>
-                    {
-
-                        opt.UseSqlite("Data Source= Test.db");
-                    });
-            }
-            else
-            {
-                services.AddDbContext<TodoContext>
-                (opt =>
-                {
-
-                    opt.UseSqlServer(Configuration.GetConnectionString("defaultConnection"));
-                });
-            }
-
             services.AddScoped<IAssigneeRepository, AssigneeRepository>();
             services.AddScoped<IAssigneeService, AssigneeService>();
             services.AddScoped<ITaskRepository, TaskRepository>();
             services.AddScoped<ITaskService, TaskService>();
             services.AddTransient<DataInit>();
             services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "RestAPI", Version = "v1" });
-            });
+            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" }); });
+            services.AddDbContext<TodoContext>(b => b
+                .UseSqlServer(Environment.GetEnvironmentVariable("DatabaseConnectionString"))
+                .LogTo(Console.WriteLine)
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,32 +50,8 @@ namespace RestAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                using (var scope = app.ApplicationServices.CreateScope())
-                {
-                    // Initialize the database
-                    var services = scope.ServiceProvider;
-                    var ctx = scope.ServiceProvider.GetService<TodoContext>();
-                    ctx.Database.EnsureDeleted();
-                    ctx.Database.EnsureCreated();
-                    var dbInitializer = services.GetService<DataInit>();
-                    dbInitializer.Seed(ctx);
-                }
-            }
-            else
-            {
-                app.UseHsts();
-                using (var scope = app.ApplicationServices.CreateScope())
-                {
-                    var ctx = scope.ServiceProvider.GetService<TodoContext>();
-                    ctx.Database.EnsureCreated();
-                }
-            }
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "RestAPI v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
             }
 
             app.UseHttpsRedirection();
@@ -105,10 +60,7 @@ namespace RestAPI
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
 }

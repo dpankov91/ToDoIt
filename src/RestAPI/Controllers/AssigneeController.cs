@@ -56,7 +56,7 @@ namespace RestAPI.Controllers
 
         // POST api/<AssigneeController>
         [HttpPost]
-        public ActionResult<Assignee> Post([FromBody] Assignee assignee)
+        public ActionResult Post([FromBody] Assignee assignee)
         {
             try
             {
@@ -72,7 +72,7 @@ namespace RestAPI.Controllers
 
         // PUT api/<AssigneeController>/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Assignee assignee)
+        public ActionResult Put(int id, [FromBody] Assignee assignee)
         {
             try
             {
