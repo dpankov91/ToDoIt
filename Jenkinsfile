@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    triggers{
+        pollSCM("* * * * *")
+    }
     stages {
         stage("Build Web") {
             steps {
@@ -10,7 +13,7 @@ pipeline {
         stage("Build API") {
             steps {
                // echo "===== REQUIRED: Will build the API project ====="
-               sh "dotnet build src/API/API.csproj"
+               sh "dotnet build src/RestAPI/RestAPI.csproj"
             }
         }
         stage("Build database") {

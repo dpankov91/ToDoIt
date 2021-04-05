@@ -56,17 +56,13 @@ namespace RestAPI.Controllers
 
         // POST api/<AssigneeController>
         [HttpPost]
-        public IActionResult Post([FromBody] Assignee assignee)
+        public ActionResult Post([FromBody] Assignee assignee)
         {
             try
             {
-                if (assignee.Name != null)
-                {
-                    return Ok(_assigneeService.CreateAssignee(assignee));
-                }
 
-                return BadRequest();
-
+                return Ok(_assigneeService.CreateAssignee(assignee));
+               
             }
             catch (Exception e)
             {
@@ -76,11 +72,11 @@ namespace RestAPI.Controllers
 
         // PUT api/<AssigneeController>/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Assignee assignee)
+        public ActionResult Put(int id, [FromBody] Assignee assignee)
         {
             try
             {
-                if (id != assignee.Id)
+                if (id < 1 || assignee.Id != id)
                 {
                     return BadRequest();
                 }

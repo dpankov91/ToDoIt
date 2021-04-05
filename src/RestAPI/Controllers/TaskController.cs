@@ -21,7 +21,7 @@ namespace RestAPI.Controllers
         }
         // GET: api/<TaskController>
         [HttpGet]
-        public IActionResult Get()
+        public ActionResult Get()
         {
             try
             {
@@ -30,13 +30,13 @@ namespace RestAPI.Controllers
             catch (Exception e)
 
             {
-                return BadRequest($"cannot read all workSpacePosters");
+                return BadRequest(e.Message);
             }
         }
 
         // GET api/<TaskController>/5
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public ActionResult Get(int id)
         {
             try
             {
@@ -55,12 +55,12 @@ namespace RestAPI.Controllers
 
         // POST api/<TaskController>
         [HttpPost]
-        public IActionResult Post([FromBody] Task task)
+        public ActionResult Post([FromBody] Task task)
         {
             try
             {
 
-                if (task.Description != null)
+                if (task != null)
                 {
                     return Ok(_taskService.CreateTask(task));
                 }
@@ -76,13 +76,13 @@ namespace RestAPI.Controllers
 
         // PUT api/<TaskController>/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Task task)
+        public ActionResult Put(int id, [FromBody] Task task)
         {
             try
             {
                 if (id != task.Id)
                 {
-                    return BadRequest($"Parameter ID({id}) and pet ID({task.Id}) have to be the same");
+                    return BadRequest();
                 }
 
                 return Ok(_taskService.UpdateTask(id, task));
@@ -95,7 +95,7 @@ namespace RestAPI.Controllers
 
         // DELETE api/<TaskController>/5
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public ActionResult Delete(int id)
         {
             try
             {

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BLL.Interfaces;
 using DAL.Interfaces;
 using Model;
+using Nest;
 
 
 namespace BLL
@@ -20,7 +21,9 @@ namespace BLL
         }
         public Assignee CreateAssignee(Assignee assignee)
         {
-            return _assigneeRepository.CreateAssignee(assignee);
+           
+           return _assigneeRepository.CreateAssignee(assignee);
+            
         }
 
         public Assignee DeleteAssignee(int id)
