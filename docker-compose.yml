@@ -12,10 +12,10 @@ services:
         MSSQL_DB: todoit
   
     application:
-      image: dpankov91/todoit
+      image: dpankov91/todoitv2
       environment: 
         ASPNETCORE_ENVIRONMENT: Development
-        DatabaseConnectionString: Server=mssql-db;Database=todoit;User Id=sa;Password=HelloW0rld
+        DatabaseConnectionString: Server=mssql-db;Database=todoit;User Id=sa;Password=HelloW0rld;
       depends_on: 
         - mssql-db
       ports: 
