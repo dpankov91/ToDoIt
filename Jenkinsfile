@@ -30,19 +30,19 @@ pipeline {
                 withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'DockerHub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']])
                 {
                     sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
-                }
+                }   
                 sh "docker push dpankov91/todoapi"
             }
         }
         stage("Deliver Web") {
             steps {
-                // echo "===== REQUIRED: Will deliver the Web to Docker Hub ====="
-                sh "docker build src/. -t dpankov91/todoweb -f ToDoIt-Frontend/Dockerfile"
+                echo "===== REQUIRED: Will deliver the Web to Docker Hub ====="
+                /*sh "docker build src/. -t dpankov91/todoweb -f ToDoIt-Frontend/Dockerfile"
                 withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'DockerHub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']])
                 {
                     sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
                 }
-                sh "docker push dpankov91/todoweb"
+                sh "docker push dpankov91/todoweb"*/
             }
         }
         stage("Release staging environment") {
