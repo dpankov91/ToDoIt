@@ -1,0 +1,31 @@
+version: "3.3"
+
+services:
+    mssql-db:
+      build: ./db/docker
+      #image: mcr.microsoft.com/mssql/server
+      ports:
+        - 1111:1433
+      environment: 
+        ACCEPT_EULA: "Y"
+        SA_PASSWORD: HelloW0rld  
+        MSSQL_DB: todoit
+  
+    application:
+      image: dpankov91/todoapi
+      environment: 
+        ASPNETCORE_ENVIRONMENT: Development
+        DatabaseConnectionString: Server=mssql-db;Database=todoit;User Id=SA;Password=HelloW0rld;
+      depends_on: 
+        - mssql-db
+      ports: 
+        - 5555:80
+
+    flyway:
+      image: flyway/flyway
+      command: migrate
+      volumes:
+        - ./db:/flyway/sql
+        - ./db:/flyway/conf
+      depends_on:
+        - mssql-db
