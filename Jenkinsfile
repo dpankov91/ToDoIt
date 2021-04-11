@@ -1,8 +1,9 @@
 pipeline {
     agent any
-    triggers{
-        pollSCM("* * * * *")
-    }
+    triggers {
+	    cron("0 * * * *")
+		pollSCM("*/5 * * * *")
+	}
     stages {
         stage("Build Web") {
             steps {
