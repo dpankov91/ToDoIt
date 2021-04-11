@@ -17,31 +17,32 @@ pipeline {
                sh "dotnet build src/RestAPI/RestAPI.csproj"
             }
         }
-        stage("Build database") {
-            steps {
-                echo "===== OPTIONAL: Will build the database (if using a state-based approach) ====="
-            }
-        }
         stage("Test API") {
             steps {
                 // echo "===== REQUIRED: Will execute unit tests of the API project ====="
                 sh "dotnet test src/TestProject/TestProject.csproj"
             }
         }
-        stage("Deliver Web") {
-            steps {
-                echo "===== REQUIRED: Will deliver the website to Docker Hub ====="
-            }
-        }
         stage("Deliver API") {
             steps {
-                // echo "===== REQUIRED: Will deliver the API to Docker Hub ====="
+                // echo "===== REQUIRED: Will deliver API to Docker Hub ====="
                 sh "docker build src/. -t dpankov91/todoapi -f src/RestAPI/Dockerfile"
                 withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'DockerHub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']])
                 {
                     sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
                 }
                 sh "docker push dpankov91/todoapi"
+            }
+        }
+        stage("Deliver Web") {
+            steps {
+                // echo "===== REQUIRED: Will deliver the Web to Docker Hub ====="
+                sh "docker build src/. -t dpankov91/todoweb -f ToDoIt-Frontend/Dockerfile"
+                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'DockerHub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']])
+                {
+                    sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
+                }
+                sh "docker push dpankov91/todoweb"
             }
         }
         stage("Release staging environment") {
